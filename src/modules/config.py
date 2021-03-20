@@ -1,8 +1,7 @@
 import os
 import sys
 
-import src.modules.jsonfile as jsonfile
-import src.modules.setting as setting
+from .setting import setting, jsonfile
 
 appauthor = "jamestansx"
 appname = "auth_Wifi_UTeM"
@@ -24,7 +23,9 @@ def isFirstRun():
 
 def editSetting(userData_json):
     data = jsonfile.read_json(userData_json)
-    choice = input("Select the setting to edit:\n1. chrome driver path\n2. username\n3. password[all]\n")
+    choice = input(
+        "Select the setting to edit:\n1. chrome driver path\n2. username\n3. password\n4. url\n[all]\n"
+    )
     if choice in {"1", "all"}:
         data["webdriverPath"] = input("Chrome driver path: ")
     if choice in {"2", "3", "all"}:
@@ -32,12 +33,15 @@ def editSetting(userData_json):
     if choice in {"3", "all"}:
         response = input("---------------\n1. Change password\n2. Delete password\n")
         password_setting(data, response)
+    if choice in {"4", "all"}:
+        data["url"] = input("New url: ")
     jsonfile.update_json(userData_json, data)
 
+
 def password_setting(data, response):
-    if response == 1:
+    if response in "1":
         setting.change_password(appname, data["username"])
-    if response == 2:
+    if response in "2":
         setting.delete_password(appname, data["username"])
 
 
@@ -60,19 +64,16 @@ def isEditSetting():
 
 def setupSetting(pathToFile):
     webdriverPath = input("Enter the path to Chrome driver: ")
+    url = input("Enter the URL: ")
     username = input("Enter your username: ")
     password = input("Enter your password: ")
-    setting.set_password(username, password)
-    data = {"webdriverPath": webdriverPath, "username": username}
+    setting.set_password(appname, username, password)
+    data = {"webdriverPath": webdriverPath, "username": username, "url": url}
     jsonfile.write_json(pathToFile, writeSettings(data))
 
 
-def writeSettings(pathDict):
-
-    data = {}
+def writeSettings(data):
     data["isFirstRun"] = False
-    data["webdriverPath"] = pathDict["webdriverPath"]
-    data["username"] = pathDict["username"]
     return data
 
 
@@ -84,6 +85,7 @@ def getSettings():
             data["webdriverPath"],
             data["username"],
             setting.get_password(appname, data["username"]),
+            data["url"],
             data["isFirstRun"],
         )
-    return None, None, None, True
+    return None, None, None, None, True
