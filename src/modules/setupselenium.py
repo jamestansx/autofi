@@ -2,11 +2,9 @@ import sys
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
-import wifiauth
 
-
-def setupSelenium(driverPath):
-    if wifiauth.is_Connected():
+def setupSelenium(driverPath, is_Connected):
+    if is_Connected:
         chrome_option = Options()
         chrome_option.add_experimental_option("excludeSwitches", ["enable-logging"])
         # chrome_option.add_argument("--headless")
