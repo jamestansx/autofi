@@ -24,4 +24,4 @@ def main(driver, username, password, url, args):
 if __name__ == "__main__":
     args = argcli.arg_cli()
     driver, username, password, url = setup(args)
-    main(driver, username, password, url)
+    main(driver, username, password, url, args)
