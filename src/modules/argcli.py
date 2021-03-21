@@ -6,7 +6,12 @@ def arg_cli():
         prog="AutoFi-UTeM", description="A bot to automatically authenticate UTeM WiFi"
     )
     parser.add_argument(
-        "--debug", "-d", dest="debug", action="store_true", default=False, help="Enable debug mode"
+        "--debug",
+        "-d",
+        dest="isDebug",
+        action="store_true",
+        default=False,
+        help="Enable debug mode",
     )
     args = parser.parse_args()
 

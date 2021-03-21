@@ -3,9 +3,9 @@ from src.modules.settings import log
 
 ignore_exceptions = (StaleElementReferenceException, NoSuchElementException)
 
-def bot(driver, username, password):
+def bot(driver, username, password, isDebug =False):
     try:
-        logger = log.newLogging("log.log")
+        logger = log.newLogging("log.log", isDebug = isDebug)
         input_username(driver, username, logger)
         input_password(driver, password, logger)
         click_button(driver, logger)
