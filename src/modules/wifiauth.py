@@ -1,5 +1,6 @@
-from src.modules.settings import log
 import urllib.request as request
+
+from src.modules.settings import log
 
 
 def is_Connected(url="https://stackoverflow.com/", timeout=3):
@@ -9,5 +10,5 @@ def is_Connected(url="https://stackoverflow.com/", timeout=3):
         logger.info("WiFi is connected and accessible.")
         return True
     except Exception as e:
-        print(e)
+        logger.info(f"Failed to connect - attempting to login - \n{e}")
         return False
