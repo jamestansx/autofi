@@ -1,6 +1,9 @@
-import sys, os
+import os
+import sys
+
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from src.modules import wifibot, wifiauth, setupselenium, config
+from src.modules import config, setupselenium, wifiauth, wifibot
+
 
 def setup():
     webdriverPath, username, password, url, isFirstRun = config.getSettings()

@@ -1,6 +1,7 @@
-import sys, os
-from src.modules.settings import setting
-from src.modules.settings import jsonfile
+import os
+import sys
+
+from src.modules.settings import jsonfile, setting
 
 appauthor = "jamestansx"
 appname = "auth_Wifi_UTeM"
