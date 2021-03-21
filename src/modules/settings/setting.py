@@ -1,3 +1,4 @@
+from getpass import getpass
 import os
 
 from appdirs import AppDirs
@@ -11,6 +12,7 @@ def get_dirs(appname, appauthor, dirs={}):
     make_dir(dirs)
     return dirs
 
+
 def make_dir(dirs):
     for dir in dirs:
         try:
@@ -19,18 +21,19 @@ def make_dir(dirs):
             pass
     return True
 
+
 def set_password(appname, username, password):
     keyring.set_password(appname, username, password)
 
+
 def change_password(appname, username):
-    new_password = input("Enter your new password: ")
+    new_password = getpass("Enter your new password: ")
     keyring.set_password(appname, username, new_password)
+
 
 def delete_password(appname, username):
     keyring.delete_password(appname, username)
 
+
 def get_password(appname, username):
     return keyring.get_password(appname, username)
-
-
-

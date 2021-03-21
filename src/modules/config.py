@@ -1,3 +1,4 @@
+from getpass import getpass
 import os
 import sys
 
@@ -66,7 +67,7 @@ def setupSetting(pathToFile):
     webdriverPath = input("Enter the path to Chrome driver: ")
     url = input("Enter the URL: ")
     username = input("Enter your username: ")
-    password = input("Enter your password: ")
+    password = getpass("Enter your password: ")
     setting.set_password(appname, username, password)
     data = {"webdriverPath": webdriverPath, "username": username, "url": url}
     jsonfile.write_json(pathToFile, writeSettings(data))
