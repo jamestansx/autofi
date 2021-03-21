@@ -13,10 +13,10 @@ def bot(driver, username, password, isDebug =False):
         if isSuccess:
             driver.quit()
         else:
-            logger.critical(f"Failed to authenticate--\n{isSuccess}")
+            logger.critical(f"Failed to authenticate--\n{isSuccess}\n")
             driver.quit()
     except Exception as e:
-        logger.error(f"{e}")
+        logger.error(f"{e}\n")
         driver.quit()
 
 
@@ -24,22 +24,22 @@ def bot(driver, username, password, isDebug =False):
 def input_username(driver, username, logger):
     user_elem = driver.find_element_by_css_selector("#ID_formc5279f78_weblogin_user")
     user_elem.send_keys(username)
-    logger.info("username is entered")
+    logger.info("username is entered\n")
 
 def input_password(driver, password, logger):
     pass_elem = driver.find_element_by_css_selector("#ID_formc5279f78_weblogin_password")
     pass_elem.send_keys(password)
-    logger.info("password is entered")
+    logger.info("password is entered\n")
 
 def click_button(driver, logger):
     button = driver.find_element_by_css_selector("#ID_formc5279f78_weblogin_submit")
     button.click()
-    logger.info("submit button is clicked")
+    logger.info("submit button is clicked\n")
 
 def is_success(driver, logger):
     try:
         driver.find_element_by_css_selector("body > font > b")
-        logger.info("WiFi is successfully authenticated")
+        logger.info("WiFi is successfully authenticated\n")
         return True
     except Exception as e:
         return e
