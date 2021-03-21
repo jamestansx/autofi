@@ -4,15 +4,19 @@ from src.modules.settings import log
 ignore_exceptions = (StaleElementReferenceException, NoSuchElementException)
 
 def bot(driver, username, password):
-    logger = log.newLogging("log.log")
-    input_username(driver, username)
-    input_password(driver, password)
-    click_button(driver)
-    isSuccess = is_success(driver)
-    if isSuccess:
-        driver.quit()
-    else:
-        logger.critical(f"Failed to authenticate--\n{isSuccess}")
+    try:
+        logger = log.newLogging("log.log")
+        input_username(driver, username, logger)
+        input_password(driver, password, logger)
+        click_button(driver, logger)
+        isSuccess = is_success(driver, logger)
+        if isSuccess:
+            driver.quit()
+        else:
+            logger.critical(f"Failed to authenticate--\n{isSuccess}")
+            driver.quit()
+    except Exception as e:
+        logger.error(f"{e}")
         driver.quit()
 
 
