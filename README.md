@@ -1,6 +1,9 @@
-# autofi-utem
-
-Automatically authenticate login process to UTeM Kediaman_Pelajar WiFi
+<h1 align="center">autofi-utem</h1>
+<h4 align="center">An automation to authenticate login process to UTeM Kediaman_Pelajar WiFi</h4>
+<div align="center">
+  <img alt="GitHub" src="https://img.shields.io/github/license/jamestansx/autofi-utem?color=bright%20green&style=for-the-badge">
+  <img alt="LGTM Grade" src="https://img.shields.io/lgtm/grade/python/github/jamestansx/autofi-utem?color=bright%20green&style=for-the-badge">
+</div>
 
 ---
 
@@ -115,7 +118,7 @@ There are two options to run this script:
 
 # Debugging
 
-In case if the script is broken, bebugging mode can be activated by passing in `-d` argument to the comman
+In case if the script is broken, bebugging mode can be activated by passing in `-d` argument to the command
 
 ```markdown
 $ python main.py -d
