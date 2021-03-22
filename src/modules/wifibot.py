@@ -1,4 +1,4 @@
-from selenium.common.exceptions import StaleElementReferenceException, NoSuchElementException
+from selenium.common.exceptions import *
 from src.modules.settings import log
 
 ignore_exceptions = (StaleElementReferenceException, NoSuchElementException)
