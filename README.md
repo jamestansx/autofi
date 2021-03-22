@@ -115,7 +115,7 @@ There are two options to run this script:
 
 # Debugging
 
-In case if the script is broken, bebugging mode can be activated by passing in `-d` argument to the comman
+In case if the script is broken, bebugging mode can be activated by passing in `-d` argument to the command
 
 ```markdown
 $ python main.py -d
