@@ -150,8 +150,5 @@ Keyring library is used to store the password. The password will be stored in th
 
 # TODO
 
-|     | Task                               | Priority |
-| --- | ---------------------------------- | -------- |
-| -[ ]  | Build task scheduler configuration | 1!       |
-| --- | ---------------------------------- | ---      |
-| -[ ]  | Build GUI for setup configuration  | 2!       |
+- [ ] Build task scheduler configuration
+- [ ] Build GUI for setup configuration
