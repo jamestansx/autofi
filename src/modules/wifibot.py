@@ -11,9 +11,13 @@ def bot(driver, username, password, isDebug =False):
         click_button(driver, logger)
         isSuccess = is_success(driver, logger)
         if isSuccess:
+            if isDebug:
+                input("Press enter to continue")
             driver.quit()
         else:
             logger.critical(f"Failed to authenticate--\n{isSuccess}\n")
+            if isDebug:
+                input("Press enter to continue")
             driver.quit()
     except Exception as e:
         logger.error(f"{e}\n")
