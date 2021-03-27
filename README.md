@@ -145,3 +145,13 @@ Currently, only chrome browser is supported.
 ## How is the password stored?
 
 Keyring library is used to store the password. The password will be stored in the [Windows Credentials Vault](https://stackoverflow.com/questions/14756352/how-is-python-keyring-implemented-on-windows).
+
+---
+
+# TODO
+
+|     | Task                               | Priority |
+| --- | ---------------------------------- | -------- |
+| []  | Build task scheduler configuration | 1!       |
+| --- | ---------------------------------- | ---      |
+| []  | Build GUI for setup configuration  | 2!       |
