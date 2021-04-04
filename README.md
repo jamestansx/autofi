@@ -61,7 +61,6 @@ Clone this repo:
 
 # Usage
 
-<h4>Warning: The Schedular is not working stablely (sometimes).</h4>
 There are two options to run this script:
 
 1. _**Terminal**_
