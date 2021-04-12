@@ -1,8 +1,8 @@
 import logging
 import os.path
 
-from src.modules import config
-from src.modules.settings import setting
+from modules import config
+from modules.settings import setting
 
 
 def log(logger, level, filepath, isDebug=False):
