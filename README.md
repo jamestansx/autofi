@@ -10,6 +10,17 @@
 
 # Installation
 
+* Download the executable from the [release page](https://github.com/jamestansx/autofi-utem/releases)
+* Run *setup.exe* to set up the configuration.
+
+**Important**
+
+Save the *main.exe* in a permanent path, so that the task scheduler will not break.
+
+---
+# Development
+## Installation
+
 Prerequisite:
 
 - python version > 3.6.x
@@ -32,9 +43,8 @@ Clone this repo:
   $ gh repo clone jamestansx/autofi-utem
   ```
 
----
 
-# Setup configuration
+## Setup configuration
 
 1. navigate to the directory the repo is cloned into (if you haven't do so)
    ```markdown
@@ -57,9 +67,8 @@ Clone this repo:
 
 4. (Optional) To update the configuration, repeat the same process.
 
----
 
-# Usage
+## Usage
 
 There are two options to run this script:
 
@@ -115,9 +124,8 @@ There are two options to run this script:
      "path/to/main.pyw"
      ```
 
----
 
-# Debugging
+## Debugging
 
 In case if the script is broken, bebugging mode can be activated by passing in `-d` argument to the command
 
@@ -149,5 +157,5 @@ Keyring library is used to store the password. The password will be stored in th
 
 # TODO
 
-- [ ] Build task scheduler configuration
+- [x] Build task scheduler configuration
 - [ ] Build GUI for setup configuration
