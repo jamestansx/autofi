@@ -21,7 +21,7 @@ def bot(driver, username, password, isDebug=False):
             if isDebug:
                 input("Press enter to continue")
             driver.quit()
-    except:
+    except Exception:
         logger.exception(f"Exception: ")
         driver.quit()
 
