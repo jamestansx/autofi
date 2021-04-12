@@ -2,7 +2,7 @@ import os
 import win32com.client
 
 
-def test(executable_path, userPassword):
+def create_scheduler(executable_path, userPassword):
     # Uses the COM Task Scheduler Interface to create a task
     # scheduled to execute when the current user logs on.
 
