@@ -1,8 +1,6 @@
-import os, sys, subprocess
-
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from src.modules import config, setupselenium, wifiauth, wifibot, argcli
-from src.modules.settings import log
+import sys, subprocess
+from modules import config, setupselenium, wifiauth, wifibot, argcli
+from modules.settings import log
 
 def isUtemWifi(wifiname="Kediaman_Pelajar"):
     if wifiname in check_wifiName():

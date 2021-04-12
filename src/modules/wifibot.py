@@ -1,6 +1,6 @@
 from selenium.common.exceptions import StaleElementReferenceException, NoSuchElementException
-from src.modules.settings import log
-from src.modules import wifiauth
+from modules.settings import log
+from modules import wifiauth
 
 ignore_exceptions = (StaleElementReferenceException, NoSuchElementException)
 

@@ -2,7 +2,7 @@ from getpass import getpass
 import os
 import sys
 
-from src.modules.settings import jsonfile, setting
+from modules.settings import jsonfile, setting
 
 appauthor = "jamestansx"
 appname = "auth_Wifi_UTeM"
@@ -64,8 +64,10 @@ def isEditSetting():
 
 
 def setupSetting(pathToFile):
+    print("General Setup\n----------------------------------------------------------------\n")
     webdriverPath = input("Enter the path to Chrome driver: ")
     url = input("Enter the URL: ")
+    print("WiFi credentials settings\n----------------------------------------------------------------\n")
     username = input("Enter your username: ")
     password = getpass("Enter your password: ")
     setting.set_password(appname, username, password)

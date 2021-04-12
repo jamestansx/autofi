@@ -1,6 +1,6 @@
 import urllib.request as request
 
-from src.modules.settings import log
+from modules.settings import log
 
 
 def is_Connected(url="https://stackoverflow.com/", timeout=5, isDebug=False):
