@@ -162,12 +162,10 @@ def writeSettings(data):
     return data
 
 
-def getSettings(isSetup=False):
+def getSettings():
     pathToFile = get_userdata_dir()
     if os.path.isfile(pathToFile):
         data = jsonfile.read_json(pathToFile)
-        if isSetup:
-            return data["mainExecutablePath"], setting.get_password(appname, userId)
         return (
             data["webdriverPath"],
             data["username"],
@@ -177,3 +175,9 @@ def getSettings(isSetup=False):
         )
     else:
         return None, None, None, None, True
+
+def getTaskInfo():
+    pathToFile = get_userdata_dir()
+    if os.path.isfile(pathToFile):
+        data = jsonfile.read_json(pathToFile)
+        return data["mainExecutablePath"], setting.get_password(appname, userId)
