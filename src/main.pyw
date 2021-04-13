@@ -1,8 +1,11 @@
-import os, sys, subprocess
+import os
+import subprocess
+import sys
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from modules import config, setupselenium, wifiauth, wifibot, argcli
+from modules import argcli, config, setupselenium, wifiauth, wifibot
 from modules.settings import log
+
 
 def isUtemWifi(wifiname="Kediaman_Pelajar"):
     if wifiname in check_wifiName():
@@ -10,12 +13,18 @@ def isUtemWifi(wifiname="Kediaman_Pelajar"):
     else:
         return False
 
-def check_wifiName(status:bool=True):
+
+def check_wifiName(status: bool = True):
     if status:
         return str(subprocess.check_output("netsh wlan show interfaces"))
     else:
-        connected_ssid = str(subprocess.check_output("powershell.exe (get-netconnectionProfile).Name", shell=True).strip())
+        connected_ssid = str(
+            subprocess.check_output(
+                "powershell.exe (get-netconnectionProfile).Name", shell=True
+            ).strip()
+        )
         return connected_ssid.strip("b'")
+
 
 def setup(args):
     webdriverPath, username, password, url, isFirstRun = config.getSettings()
@@ -39,6 +48,6 @@ if __name__ == "__main__":
         driver, username, password, url = setup(args)
         main(driver, username, password, url, args)
     else:
-        logger = log.newLogging("log.log", isDebug = args.isDebug)
+        logger = log.newLogging("log.log", isDebug=args.isDebug)
         connected_ssid = check_wifiName(isUtemWifi())
         logger.warning(f"Connected WiFi is {connected_ssid}...")

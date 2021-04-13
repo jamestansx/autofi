@@ -1,8 +1,8 @@
-from getpass import getpass
 import os
+from getpass import getpass
 
-from appdirs import AppDirs
 import keyring
+from appdirs import AppDirs
 
 
 def get_dirs(appname, appauthor, dirs={}):
