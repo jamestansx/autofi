@@ -10,8 +10,13 @@
 
 # Installation
 
-* Download the executable from the [release page](https://github.com/jamestansx/autofi-utem/releases)
-* Run *setup.exe* to set up the configuration.
+**Prerequisite:**
+
+- lastest [Chrome driver](https://chromedriver.chromium.org/downloads)
+
+
+1. Download the executable from the [release page](https://github.com/jamestansx/autofi-utem/releases)
+2. Run *setup.exe* to set up the configuration.
 
 **Important**
 
