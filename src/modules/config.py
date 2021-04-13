@@ -55,7 +55,7 @@ def editSetting(userData_json):
     if choice in {"4", "all"}:
         data["url"] = Prompt.ask("[italic green]New url")
     if choice in {"5", "all"}:
-        mainPath, password = getSettings(True)
+        mainPath, password = getSettings()
         create_task(mainPath, password)
     if choice in {"6", "all"}:
         console.print(
