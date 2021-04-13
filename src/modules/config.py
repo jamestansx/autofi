@@ -1,7 +1,10 @@
 from getpass import getpass
 import os
 import sys
-
+from rich.console import Console
+from rich.prompt import Prompt
+from rich.panel import Panel
+from rich.prompt import Confirm
 from modules.settings import jsonfile, setting
 from modules.settings import taskscheduler as scheduler
 
@@ -24,40 +27,44 @@ def isFirstRun():
 
 def editSetting(userData_json):
     data = jsonfile.read_json(userData_json)
-    choice = input(
-        "Select the setting to edit:\n1. chrome driver path\n2. username\n3. password\n4. url\n5. task scheduler\n6. main executable path\n[all]\n"
-    )
+    console = Console()
+    console.print(Panel("1. chrome driver path\n2. username\n3. password\n4. url\n5. task scheduler\n6. main executable path\n>>all", title="Select the setting to edit"))
+    choice = Prompt.ask("[italic red]Choice", choices=["1", "2", "3", "4", "5", "6", "all"], default="all")
     if choice in {"1", "all"}:
-        data["webdriverPath"] = input("Chrome driver path: ")
+        data["webdriverPath"] = Prompt.ask("[italic green]Chrome driver path")
     if choice in {"2", "all"}:
-        data["username"] = input("Username: ")
+        data["username"] = Prompt.ask("[italic green]Username")
     if choice in {"3", "all"}:
-        response = input("---------------\n1. Change password\n2. Delete password\n")
-        password_setting(data, response)
+        console.print(Panel("1. [italic red]Change password\n[/]2. [italic red]Delete password", title="Password Setting", expand=False))
+        response = Prompt.ask("[italic red]Choice", choices=["1", "2"])
+        password_setting(data, response, console)
     if choice in {"4", "all"}:
-        data["url"] = input("New url: ")
+        data["url"] = Prompt.ask("[italic green]New url")
     if choice in {"5", "all"}:
         mainPath, password = getSettings(True)
         create_task(mainPath, password)
     if choice in {"6", "all"}:
-        inputChoice = input("new main executable path: \n(1) Default (Current Path)\n(2) Specify path\n")
+        console.print(Panel(f"(1) [bold red]Current Directory: [/][italic blue]{os.getcwd()}\n[/](2) [bold red]Specific Path", title="New Main Executable Path", ))
+        inputChoice = Prompt.ask("[italic blue]Choice", choices=["1", "2"])
         isExePath(inputChoice)
     jsonfile.update_json(userData_json, data)
 
 def create_task(mainPath, password):
-    isTaskScheduler = input("Do you want to setup task scheduler (y/n): ")
+    isTaskScheduler = Confirm.ask("Do you want to setup task scheduler")
     if isTaskScheduler in {"y", "yes"}:
         scheduler.create_scheduler(mainPath, password)
 
-def password_setting(data, response):
+def password_setting(data, response, console):
     if response in "1":
-        whichPassword = input("Which password to change: \n(1) Wifi User Credential\n(2) User Admin\n")
+        console.print(Panel("(1) [italic blue]Wifi User Credential\n[/](2) [italic blue]User Admin\n", title="Which password to change"))
+        whichPassword = Prompt.ask("[italic blue]Choice", choices=["1", "2"])
         if whichPassword in "1":
             setting.change_password(appname, data["username"])
         elif whichPassword in "2":
             setting.change_password(appname, userId)
     if response in "2":
-        whichPassword = input("Which password to change: \n(1) Wifi User Credential\n(2) User Admin\n")
+        console.print(Panel("(1) [italic blue]Wifi User Credential\n(2) [italic blue]User Admin\n", title="Which password to delete"))
+        whichPassword = Prompt.ask("[italic blue]Choice", choices=["1", "2"])
         if whichPassword in "1":
             setting.delete_password(appname, data["username"])
         elif whichPassword in "2":
@@ -70,26 +77,21 @@ def get_userdata_dir():
 
 
 def isEditSetting():
-    while True:
-        response = input("Setting is already existed\nDo you want to edit <y/n>: ")
-        if response.strip().lower() in {"y", "yes"}:
-            return True
-        elif response.strip().lower() in {"n", "no"}:
-            return False
-        else:
-            pass
-
+    return Confirm.ask("[bold red]Setting is already existed\n[/][bold italic white on red blink]Do you want to edit", default=True)
 
 def setupSetting(pathToFile):
-    print("General Setup\n----------------------------------------------------------------\n")
-    webdriverPath = input("Enter the path to Chrome driver: ")
-    url = input("Enter the URL: ")
-    print("WiFi credentials settings\n----------------------------------------------------------------\n")
-    username = input("Enter your username: ")
-    password = getpass("Enter your password: ")
+    console = Console()
+    console.rule("[bold red]General Setup")
+    webdriverPath = Prompt.ask("[italic red]Enter the path to Chrome driver")
+    url = Prompt.ask("[italic red]Enter the URL")
+    console.rule("[bold purple]WiFi credentials settings")
+    username = Prompt.ask("[italic purple]Enter your username")
+    password = Prompt.ask("[italic purple]Enter your password", password=True)
     setting.set_password(appname, username, password)
-    print("Task Scheduler Settings\n----------------------------------------------------------------\n")
-    inputChoice = input("main executable path: \n(1) Default (Current Path)\n(2) Specify path\n")
+    console.rule("[bold blue]Task Scheduler Settings")
+    console.print(Panel(f"(1) [bold red]Current Directory: [/][italic blue]{os.getcwd()}\n(2) [bold red]Specific Path", title="Main Executable Path"))
+    console.print()
+    inputChoice = Prompt.ask("[italic blue]Choice", choices=["1", "2"])
     exePath = isExePath(inputChoice)
     adminPassword = getpass("Enter your admin password: ")
     setting.set_password(appname, userId, adminPassword)
@@ -105,9 +107,7 @@ def isExePath(inputChoice):
                 if name in files:
                     return os.path.join(root, name)
         elif inputChoice in "2":
-            return input("Enter the executable path: ")
-        else:
-            inputChoice = input("Please select the appropriate choice (1/2): ")
+            return Prompt.ask("Enter the executable path")
 
 def writeSettings(data):
     data["isFirstRun"] = False
