@@ -175,4 +175,5 @@ def getSettings(isSetup=False):
             data["url"],
             data["isFirstRun"],
         )
-    return None, None, None, None, True
+    else:
+        return None, None, None, None, True
