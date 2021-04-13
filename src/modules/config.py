@@ -55,7 +55,7 @@ def editSetting(userData_json):
     if choice in {"4", "all"}:
         data["url"] = Prompt.ask("[italic green]New url")
     if choice in {"5", "all"}:
-        mainPath, password = getSettings(True)
+        mainPath, password = getTaskInfo()
         create_task(mainPath, password)
     if choice in {"6", "all"}:
         console.print(
@@ -162,12 +162,10 @@ def writeSettings(data):
     return data
 
 
-def getSettings(isSetup=False):
+def getSettings():
     pathToFile = get_userdata_dir()
     if os.path.isfile(pathToFile):
         data = jsonfile.read_json(pathToFile)
-        if isSetup:
-            return data["mainExecutablePath"], setting.get_password(appname, userId)
         return (
             data["webdriverPath"],
             data["username"],
@@ -175,4 +173,11 @@ def getSettings(isSetup=False):
             data["url"],
             data["isFirstRun"],
         )
-    return None, None, None, None, True
+    else:
+        return None, None, None, None, True
+
+def getTaskInfo():
+    pathToFile = get_userdata_dir()
+    if os.path.isfile(pathToFile):
+        data = jsonfile.read_json(pathToFile)
+        return data["mainExecutablePath"], setting.get_password(appname, userId)
