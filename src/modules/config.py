@@ -121,8 +121,8 @@ def setupSetting(pathToFile):
     webdriverPath = Prompt.ask("[italic red]Enter the path to Chrome driver")
     url = Prompt.ask("[italic red]Enter the URL")
     console.rule("[bold purple]WiFi credentials settings")
-    username = Prompt.ask("[italic purple]Enter your username")
-    password = Prompt.ask("[italic purple]Enter your password", password=True)
+    username = Prompt.ask("[italic purple]Enter your username", default="ogx")
+    password = Prompt.ask("[italic purple]Enter your password", password=True, default="1234")
     setting.set_password(appname, username, password)
     console.rule("[bold blue]Task Scheduler Settings")
     console.print(
