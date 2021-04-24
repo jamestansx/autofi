@@ -1,12 +1,13 @@
 import subprocess
 import sys
 
-from modules import argcli, config, setupselenium, wifiauth, wifibot
+from modules import argcli, config, setupselenium, wifiauth
 from modules.settings import log
 
 
 def isUtemWifi(wifiname="Kediaman_Pelajar"):
-    if wifiname in check_wifiName():
+    alternatewifi = "Kediaman_Staff"
+    if wifiname or alternatewifi in check_wifiName():
         return True
     else:
         return False
@@ -28,16 +29,22 @@ def setup(args):
     webdriverPath, username, password, url, isFirstRun = config.getSettings()
     if isFirstRun:
         sys.exit(1)
-
-    driver = setupselenium.setupSelenium(
+    try:
+        driver = setupselenium.setupSelenium(
         webdriverPath, wifiauth.is_Connected(isDebug=args.isDebug), args.isDebug
-    )
-    return driver, username, password, url
+        )
+        return driver, username, password, url
+    except Exception:
+        return None, None, None, None
 
 
 def main(driver, username, password, url, args):
-    setupselenium.open_webdriver(driver, url)
-    wifibot.bot(driver, username, password, args.isDebug)
+    # setupselenium.open_webdriver(driver, url)
+    # wifibot.bot(driver, username, password, args.isDebug)
+
+    # FUCK I don't know about cURL and spending my time to do this bot
+    # when in fact it can be done with this command
+    return subprocess.Popen('curl -s -d user="ogx" -d password="1234" "http://securelogin.arubanetworks.com/cgi-bin/login"')
 
 
 if __name__ == "__main__":
