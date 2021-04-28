@@ -6,8 +6,10 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.prompt import Confirm, Prompt
 
-from modules.settings import jsonfile, setting
 from modules.settings import taskscheduler as scheduler
+from modules.settings.jsonfile import read_json, update_json, write_json
+from modules.settings.setting import (change_password, delete_password,
+                                      get_dirs, get_password, set_password)
 
 appauthor = "jamestansx"
 appname = "auth_Wifi_UTeM"
@@ -27,22 +29,18 @@ def isFirstRun():
 
 
 def editSetting(userData_json):
-    data = jsonfile.read_json(userData_json)
+    data = read_json(userData_json)
     console = Console()
     console.print(
         Panel(
-            "1. chrome driver path\n2. username\n3. password\n4. url\n5. task scheduler\n6. main executable path\n>>all",
+            "1. Admin password (PC)\n2. task scheduler\n3. main executable path\n>>all",
             title="Select the setting to edit",
         )
     )
     choice = Prompt.ask(
-        "[italic red]Choice", choices=["1", "2", "3", "4", "5", "6", "all"], default="all"
+        "[italic red]Choice", choices=["1", "2", "3", "all"], default="all"
     )
     if choice in {"1", "all"}:
-        data["webdriverPath"] = Prompt.ask("[italic green]Chrome driver path")
-    if choice in {"2", "all"}:
-        data["username"] = Prompt.ask("[italic green]Username")
-    if choice in {"3", "all"}:
         console.print(
             Panel(
                 "1. [italic red]Change password\n[/]2. [italic red]Delete password",
@@ -51,13 +49,11 @@ def editSetting(userData_json):
             )
         )
         response = Prompt.ask("[italic red]Choice", choices=["1", "2"])
-        password_setting(data, response, console)
-    if choice in {"4", "all"}:
-        data["url"] = Prompt.ask("[italic green]New url")
-    if choice in {"5", "all"}:
+        password_setting(response)
+    if choice in {"2", "all"}:
         mainPath, password = getTaskInfo()
         create_task(mainPath, password)
-    if choice in {"6", "all"}:
+    if choice in {"3", "all"}:
         console.print(
             Panel(
                 f"(1) [bold red]Current Directory: [/][italic blue]{os.getcwd()}\n[/](2) [bold red]Specific Path",
@@ -66,7 +62,7 @@ def editSetting(userData_json):
         )
         inputChoice = Prompt.ask("[italic blue]Choice", choices=["1", "2"])
         isExePath(inputChoice)
-    jsonfile.update_json(userData_json, data)
+    update_json(userData_json, data)
 
 
 def create_task(mainPath, password):
@@ -75,35 +71,15 @@ def create_task(mainPath, password):
         scheduler.create_scheduler(mainPath, password)
 
 
-def password_setting(data, response, console):
+def password_setting(response):
     if response in "1":
-        console.print(
-            Panel(
-                "(1) [italic blue]Wifi User Credential\n[/](2) [italic blue]User Admin\n",
-                title="Which password to change",
-            )
-        )
-        whichPassword = Prompt.ask("[italic blue]Choice", choices=["1", "2"])
-        if whichPassword in "1":
-            setting.change_password(appname, data["username"])
-        elif whichPassword in "2":
-            setting.change_password(appname, userId)
+        change_password(appname, userId)
     if response in "2":
-        console.print(
-            Panel(
-                "(1) [italic blue]Wifi User Credential\n(2) [italic blue]User Admin\n",
-                title="Which password to delete",
-            )
-        )
-        whichPassword = Prompt.ask("[italic blue]Choice", choices=["1", "2"])
-        if whichPassword in "1":
-            setting.delete_password(appname, data["username"])
-        elif whichPassword in "2":
-            setting.delete_password(appname, userId)
+        delete_password(appname, userId)
 
 
 def get_userdata_dir():
-    dirs = setting.get_dirs(appname, appauthor)
+    dirs = get_dirs(appname, appauthor)
     userData_json = os.path.join(dirs["userData"], "userdata.json")
     return userData_json
 
@@ -117,13 +93,13 @@ def isEditSetting():
 
 def setupSetting(pathToFile):
     console = Console()
-    console.rule("[bold red]General Setup")
-    webdriverPath = Prompt.ask("[italic red]Enter the path to Chrome driver")
-    url = Prompt.ask("[italic red]Enter the URL")
-    console.rule("[bold purple]WiFi credentials settings")
-    username = Prompt.ask("[italic purple]Enter your username", default="ogx")
-    password = Prompt.ask("[italic purple]Enter your password", password=True, default="1234")
-    setting.set_password(appname, username, password)
+    # console.rule("[bold red]General Setup")
+    # webdriverPath = Prompt.ask("[italic red]Enter the path to Chrome driver")
+    # url = Prompt.ask("[italic red]Enter the URL")
+    # console.rule("[bold purple]WiFi credentials settings")
+    # username = Prompt.ask("[italic purple]Enter your username", default="ogx")
+    # password = Prompt.ask("[italic purple]Enter your password", password=True, default="1234")
+    # setting.set_password(appname, username, password)
     console.rule("[bold blue]Task Scheduler Settings")
     console.print(
         Panel(
@@ -134,15 +110,12 @@ def setupSetting(pathToFile):
     console.print()
     inputChoice = Prompt.ask("[italic blue]Choice", choices=["1", "2"])
     exePath = isExePath(inputChoice)
-    adminPassword = getpass("Enter your admin password: ")
-    setting.set_password(appname, userId, adminPassword)
+    adminPassword = getpass("Enter your admin password (PC): ")
+    set_password(appname, userId, adminPassword)
     data = {
-        "webdriverPath": webdriverPath,
-        "username": username,
-        "url": url,
-        "mainExecutablePath": exePath,
+        "mainExecutablePath": exePath
     }
-    jsonfile.write_json(pathToFile, writeSettings(data))
+    write_json(pathToFile, writeSettings(data))
 
 
 def isExePath(inputChoice):
@@ -161,7 +134,7 @@ def writeSettings(data):
     data["isFirstRun"] = False
     return data
 
-
+'''
 def getSettings():
     pathToFile = get_userdata_dir()
     if os.path.isfile(pathToFile):
@@ -175,9 +148,9 @@ def getSettings():
         )
     else:
         return None, None, None, None, True
-
+'''
 def getTaskInfo():
     pathToFile = get_userdata_dir()
     if os.path.isfile(pathToFile):
-        data = jsonfile.read_json(pathToFile)
-        return data["mainExecutablePath"], setting.get_password(appname, userId)
+        data = read_json(pathToFile)
+        return data["mainExecutablePath"], get_password(appname, userId)

@@ -1,10 +1,12 @@
-from subprocess import check_output, Popen
-# import sys
+from subprocess import Popen, check_output
 
 from modules.argcli import arg_cli
-from modules.config import getSettings
+# from modules.config import getSettings
 # setupselenium, wifiauth
 from modules.settings.log import newLogging
+
+# import sys
+
 
 
 def isUtemWifi(wifiname="Kediaman_Pelajar"):
@@ -26,7 +28,7 @@ def check_wifiName(status: bool = True):
         )
         return connected_ssid.strip("b'")
 
-
+'''
 def setup(args):
     return getSettings()
     # ! Do not activate chrome driver as it will clog up the memory
@@ -41,9 +43,9 @@ def setup(args):
         # return driver, username, password, url
     # except Exception:
         # return None, None, None, None
+'''
 
-
-def main(driver, username, password, url, args):
+def main():#driver, username, password, url, args):
     # setupselenium.open_webdriver(driver, url)
     # wifibot.bot(driver, username, password, args.isDebug)
     # FUCK I don't know about cURL and spending my time to do this bot
@@ -54,8 +56,8 @@ def main(driver, username, password, url, args):
 if __name__ == "__main__":
     args = arg_cli()
     if isUtemWifi():
-        driver, username, password, url, isFirstRun = setup(args)
-        main(driver, username, password, url, args)
+        # driver, username, password, url, isFirstRun = setup(args)
+        main()
     else:
         logger = newLogging("log.log", isDebug=args.isDebug)
         connected_ssid = check_wifiName(isUtemWifi())
