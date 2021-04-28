@@ -1,6 +1,6 @@
-from modules import config
+from modules.config import isFirstRun, create_task, getTaskInfo
 
-config.isFirstRun()
-mainPath, password = config.getTaskInfo()
-config.create_task(mainPath, password)
+isFirstRun()
+mainPath, password = getTaskInfo()
+create_task(mainPath, password)
 print("Setup is completed successfully")

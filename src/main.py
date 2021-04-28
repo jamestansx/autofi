@@ -1,9 +1,10 @@
-import subprocess
+from subprocess import check_output, Popen
 # import sys
 
-from modules import argcli, config
+from modules.argcli import arg_cli
+from modules.config import getSettings
 # setupselenium, wifiauth
-from modules.settings import log
+from modules.settings.log import newLogging
 
 
 def isUtemWifi(wifiname="Kediaman_Pelajar"):
@@ -16,10 +17,10 @@ def isUtemWifi(wifiname="Kediaman_Pelajar"):
 
 def check_wifiName(status: bool = True):
     if status:
-        return str(subprocess.check_output("netsh wlan show interfaces"))
+        return str(check_output("netsh wlan show interfaces"))
     else:
         connected_ssid = str(
-            subprocess.check_output(
+            check_output(
                 "powershell.exe (get-netconnectionProfile).Name", shell=True
             ).strip()
         )
@@ -27,7 +28,7 @@ def check_wifiName(status: bool = True):
 
 
 def setup(args):
-    return config.getSettings()
+    return getSettings()
     # ! Do not activate chrome driver as it will clog up the memory
     # ! as it doesn't close properly
     # webdriverPath, username, password, url, isFirstRun = config.getSettings()
@@ -47,15 +48,15 @@ def main(driver, username, password, url, args):
     # wifibot.bot(driver, username, password, args.isDebug)
     # FUCK I don't know about cURL and spending my time to do this bot
     # when in fact it can be done with this command
-    return subprocess.Popen('curl -s -d user="ogx" -d password="1234" "http://securelogin.arubanetworks.com/cgi-bin/login"')
+    return Popen('curl -s -d user="ogx" -d password="1234" "http://securelogin.arubanetworks.com/cgi-bin/login"')
 
 
 if __name__ == "__main__":
-    args = argcli.arg_cli()
+    args = arg_cli()
     if isUtemWifi():
         driver, username, password, url, isFirstRun = setup(args)
         main(driver, username, password, url, args)
     else:
-        logger = log.newLogging("log.log", isDebug=args.isDebug)
+        logger = newLogging("log.log", isDebug=args.isDebug)
         connected_ssid = check_wifiName(isUtemWifi())
         logger.warning(f"Connected WiFi is {connected_ssid}...")
