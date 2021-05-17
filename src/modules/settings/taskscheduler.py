@@ -71,6 +71,3 @@ def create_scheduler(executable_path, userPassword):
     rootFolder.RegisterTaskDefinition(
         task_id, taskDef, TASK_CREATE_OR_UPDATE, trigger.UserId, userPassword, TASK_LOGON_PASSWORD
     )
-
-
-create_scheduler("D:\Project Work\Programming project\Python\AutoWifiAuth\src\dist\main.exe", "Str@ng3Quark_1021")
