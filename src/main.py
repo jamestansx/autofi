@@ -11,7 +11,7 @@ from modules.settings.log import newLogging
 
 def isUtemWifi(wifiname="Kediaman_Pelajar"):
     alternatewifi = "Kediaman_Staff"
-    if wifiname or alternatewifi in check_wifiName():
+    if (wifiname or alternatewifi) in check_wifiName():
         return True
     else:
         return False

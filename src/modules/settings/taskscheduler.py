@@ -1,4 +1,4 @@
-import os
+from os import environ
 
 import win32com.client
 
@@ -35,7 +35,7 @@ def create_scheduler(executable_path, userPassword):
 
     trigger = colTriggers.Create(TASK_TRIGGER_LOGON)
     trigger.Id = "LogonTriggerId"
-    trigger.UserId = os.environ.get("USERNAME")  # current user account
+    trigger.UserId = environ.get("USERDOMAIN") + "\\" + environ.get("USERNAME")  # current user account
 
     trigger2 = colTriggers.Create(TASK_TRIGGER_EVENT)
     trigger2.Subscription = """<QueryList>
