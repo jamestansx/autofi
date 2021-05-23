@@ -1,11 +1,10 @@
 from subprocess import Popen, check_output
 
 from modules.argcli import arg_cli
+from modules.settings.log import newLogging
 
 # from modules.config import getSettings
 # setupselenium, wifiauth
-from modules.settings.log import newLogging
-
 # import sys
 
 
