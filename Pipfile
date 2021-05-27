@@ -5,7 +5,7 @@ name = "pypi"
 
 [packages]
 appdirs = "==1.4.4"
-keyring = "==23.0.0"
+keyring = "==23.0.1"
 urllib3 = "==1.26.4"
 rich = "==10.2.2"
 pywin32 = "*"
