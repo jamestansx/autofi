@@ -8,8 +8,7 @@ def write_json(pathToFile, data):
 
 def read_json(pathToFile):
     with open(pathToFile, "r") as readFile:
-        data = json.load(readFile)
-        return data
+        return json.load(readFile)
 
 
 def update_json(pathToFile, updataData):

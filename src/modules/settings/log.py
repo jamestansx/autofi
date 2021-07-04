@@ -17,10 +17,7 @@ def log(logger, level, filepath, isDebug=False):
         fmt="%(asctime)s %(levelname)s: %(funcName)s:%(lineno)d %(message)s",
         datefmt="%d-%b-%y %H:%M:%S",
     )
-    if isDebug:
-        handler = logging.StreamHandler()
-    else:
-        handler = logging.FileHandler(filepath)
+    handler = logging.StreamHandler() if isDebug else logging.FileHandler(filepath)
     handler.setFormatter(formatter)
     logger.setLevel(level)
     logger.addHandler(handler)

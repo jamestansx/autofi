@@ -13,6 +13,4 @@ def arg_cli():
         default=False,
         help="Enable debug mode",
     )
-    args = parser.parse_args()
-
-    return args
+    return parser.parse_args()

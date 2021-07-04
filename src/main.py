@@ -10,20 +10,16 @@ from modules.settings.log import newLogging
 
 def isUtemWifi(wifiname="Kediaman_Pelajar"):
     alternatewifi = "Kediaman_Staff"
-    if any(wifiname in check_wifiName() for wifiname in (wifiname, alternatewifi)):
-        return True
-    else:
-        return False
+    return any(wifiname in check_wifiName() for wifiname in (wifiname, alternatewifi))
 
 
 def check_wifiName(status: bool = True):
     if status:
         return str(check_output("netsh wlan show interfaces"))
-    else:
-        connected_ssid = str(
-            check_output("powershell.exe (get-netconnectionProfile).Name", shell=True).strip()
-        )
-        return connected_ssid.strip("b'")
+    connected_ssid = str(
+        check_output("powershell.exe (get-netconnectionProfile).Name", shell=True).strip()
+    )
+    return connected_ssid.strip("b'")
 
 
 """

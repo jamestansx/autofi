@@ -13,15 +13,11 @@ def bot(driver, username, password, isDebug=False):
         input_password(driver, password, logger)
         click_button(driver, logger)
         isSuccess = wifiauth.is_Connected()
-        if isSuccess:
-            if isDebug:
-                input("Press enter to continue")
-            driver.quit()
-        else:
+        if not isSuccess:
             logger.critical(f"Failed to authenticate--\n{isSuccess}\n")
-            if isDebug:
-                input("Press enter to continue")
-            driver.quit()
+        if isDebug:
+            input("Press enter to continue")
+        driver.quit()
     except Exception:
         logger.exception(f"Exception: ")
         driver.quit()

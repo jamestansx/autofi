@@ -80,8 +80,7 @@ def password_setting(response):
 
 def get_userdata_dir():
     dirs = get_dirs(appname, appauthor)
-    userData_json = os.path.join(dirs["userData"], "userdata.json")
-    return userData_json
+    return os.path.join(dirs["userData"], "userdata.json")
 
 
 def isEditSetting():
