@@ -92,13 +92,6 @@ def isEditSetting():
 
 def setupSetting(pathToFile):
     console = Console()
-    # console.rule("[bold red]General Setup")
-    # webdriverPath = Prompt.ask("[italic red]Enter the path to Chrome driver")
-    # url = Prompt.ask("[italic red]Enter the URL")
-    # console.rule("[bold purple]WiFi credentials settings")
-    # username = Prompt.ask("[italic purple]Enter your username", default="ogx")
-    # password = Prompt.ask("[italic purple]Enter your password", password=True, default="1234")
-    # setting.set_password(appname, username, password)
     console.rule("[bold blue]Task Scheduler Settings")
     console.print(
         Panel(
@@ -133,21 +126,6 @@ def writeSettings(data):
     data["isFirstRun"] = False
     return data
 
-'''
-def getSettings():
-    pathToFile = get_userdata_dir()
-    if os.path.isfile(pathToFile):
-        data = jsonfile.read_json(pathToFile)
-        return (
-            data["webdriverPath"],
-            data["username"],
-            setting.get_password(appname, data["username"]),
-            data["url"],
-            data["isFirstRun"],
-        )
-    else:
-        return None, None, None, None, True
-'''
 def getTaskInfo():
     pathToFile = get_userdata_dir()
     if os.path.isfile(pathToFile):

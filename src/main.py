@@ -23,8 +23,6 @@ def check_wifiName(status: bool = True):
 
 
 def main():
-    # FUCK I don't know about cURL and spending my time to do this bot
-    # when in fact it can be done with this command
     return Popen(
         'curl -s -d user="ogx" -d password="1234" "http://securelogin.arubanetworks.com/cgi-bin/login"'
     )
