@@ -3,7 +3,7 @@ import argparse
 
 def arg_cli():
     parser = argparse.ArgumentParser(
-        prog="AutoFi-UTeM", description="A bot to automatically authenticate UTeM WiFi"
+        prog="autofi-utem", description="A bot to automatically authenticate UTeM WiFi"
     )
     parser.add_argument(
         "-d",
@@ -13,4 +13,7 @@ def arg_cli():
         default=False,
         help="Enable debug mode",
     )
-    return parser.parse_args()
+    try:
+        return parser.parse_args()
+    except:
+        return parser.parse_args([])

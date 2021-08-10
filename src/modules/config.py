@@ -8,8 +8,13 @@ from rich.prompt import Confirm, Prompt
 
 from modules.settings import taskscheduler as scheduler
 from modules.settings.jsonfile import read_json, update_json, write_json
-from modules.settings.setting import (change_password, delete_password,
-                                      get_dirs, get_password, set_password)
+from modules.settings.setting import (
+    change_password,
+    delete_password,
+    get_dirs,
+    get_password,
+    set_password,
+)
 
 appauthor = "jamestansx"
 appname = "auth_Wifi_UTeM"
@@ -104,9 +109,7 @@ def setupSetting(pathToFile):
     exePath = isExePath(inputChoice)
     adminPassword = getpass("Enter your admin password (PC): ")
     set_password(appname, userId, adminPassword)
-    data = {
-        "mainExecutablePath": exePath
-    }
+    data = {"mainExecutablePath": exePath}
     write_json(pathToFile, writeSettings(data))
 
 
@@ -125,6 +128,7 @@ def isExePath(inputChoice):
 def writeSettings(data):
     data["isFirstRun"] = False
     return data
+
 
 def getTaskInfo():
     pathToFile = get_userdata_dir()
