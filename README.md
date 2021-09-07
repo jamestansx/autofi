@@ -42,4 +42,3 @@ Keyring library is used to store the password. The password will be stored in th
 # TODO
 
 - [x] Build task scheduler configuration
-- [ ] Build GUI for setup configuration
