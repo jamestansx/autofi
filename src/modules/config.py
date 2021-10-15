@@ -17,7 +17,7 @@ from modules.settings.setting import (
 )
 
 appauthor = "jamestansx"
-appname = "auth_Wifi_UTeM"
+appname = "autofi"
 userId = os.environ.get("USERNAME")
 
 
@@ -117,7 +117,7 @@ def isExePath(inputChoice):
     while True:
         if inputChoice in "1":
             pwd = os.getcwd()
-            name = "main.exe"
+            name = appname + ".exe"
             for root, dirs, files in os.walk(pwd):
                 if name in files:
                     return os.path.join(root, name)
