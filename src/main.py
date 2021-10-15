@@ -1,7 +1,8 @@
-from subprocess import Popen, check_output, PIPE
+from subprocess import PIPE, Popen, check_output
 
 from modules.argcli import arg_cli
 from modules.settings.log import newLogging
+from setup import setup
 
 
 def isUtemWifi(wifiname="Kediaman_Pelajar"):
@@ -23,6 +24,8 @@ def check_wifiName(status: bool = True):
 
 
 def main(args=arg_cli()):
+    if setup():
+        return False
     if isUtemWifi():
         return Popen(
             'curl -s -d user="ogx" -d password="1234" "http://securelogin.arubanetworks.com/cgi-bin/login" -w "%{http_code}',
@@ -32,7 +35,6 @@ def main(args=arg_cli()):
         logger = newLogging("log.log", isDebug=args.isDebug)
         connected_ssid = check_wifiName(isUtemWifi())
         logger.warning(f"Connected WiFi is {connected_ssid}...")
-        return "not connected"
 
 
 if __name__ == "__main__":
