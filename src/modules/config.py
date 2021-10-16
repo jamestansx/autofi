@@ -28,9 +28,10 @@ def isFirstRun():
         response = isEditSetting()
         if response:
             editSetting(userData_json)
-        sys.exit()
+        return False
     else:
         setupSetting(userData_json)
+        return True
 
 
 def editSetting(userData_json):
@@ -72,7 +73,7 @@ def editSetting(userData_json):
 
 def create_task(mainPath, password):
     isTaskScheduler = Confirm.ask("Do you want to setup task scheduler")
-    if isTaskScheduler in {"y", "yes"}:
+    if isTaskScheduler:
         scheduler.create_scheduler(mainPath, password)
 
 
@@ -108,21 +109,22 @@ def setupSetting(pathToFile):
     inputChoice = Prompt.ask("[italic blue]Choice", choices=["1", "2"])
     exePath = isExePath(inputChoice)
     adminPassword = getpass("Enter your admin password (PC): ")
+    print()
     set_password(appname, userId, adminPassword)
     data = {"mainExecutablePath": exePath}
     write_json(pathToFile, writeSettings(data))
 
 
 def isExePath(inputChoice):
-    while True:
-        if inputChoice in "1":
-            pwd = os.getcwd()
-            name = appname + ".exe"
-            for root, dirs, files in os.walk(pwd):
-                if name in files:
-                    return os.path.join(root, name)
-        elif inputChoice in "2":
-            return Prompt.ask("Enter the executable path")
+    if inputChoice in "1":
+        pwd = os.getcwd()
+        name = appname + ".exe"
+        for root, dirs, files in os.walk(pwd):
+            if name in files:
+                return os.path.join(root, name)
+        else:
+            Console().print("[bold red]autofi.exe is not found")
+    return Prompt.ask("Enter the executable path")
 
 
 def writeSettings(data):
