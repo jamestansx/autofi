@@ -13,6 +13,14 @@ def arg_cli():
         default=False,
         help="Enable debug mode",
     )
+    parser.add_argument(
+        "-e",
+        "--edit",
+        dest="isEdit",
+        action="store_true",
+        default=False,
+        help="Edit setup configuration",
+    )
     try:
         return parser.parse_args()
     except:

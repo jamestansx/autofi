@@ -16,9 +16,7 @@ def is_Connected(url="https://stackoverflow.com/", timeout=5, isDebug=False):
             if attempts == 2:
                 logger.error("Last trial==>Too many trial!!")
             if str(e) in "urlopen error [Errno 11001] getaddrinfo failed":
-                logger.warn(
-                    f"Failed to open url - attempting to reopen - \n{e}\n"
-                )
+                logger.warn(f"Failed to open url - attempting to reopen - \n{e}\n")
                 continue
             else:
                 logger.info(

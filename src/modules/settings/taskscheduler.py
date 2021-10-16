@@ -61,5 +61,10 @@ def create_scheduler(executable_path, userPassword):
     settings.Hidden = task_hidden
 
     rootFolder.RegisterTaskDefinition(
-        task_id, taskDef, TASK_CREATE_OR_UPDATE, trigger.UserId, userPassword, TASK_LOGON_PASSWORD
+        task_id,
+        taskDef,
+        TASK_CREATE_OR_UPDATE,
+        trigger.UserId,
+        userPassword,
+        TASK_LOGON_PASSWORD,
     )

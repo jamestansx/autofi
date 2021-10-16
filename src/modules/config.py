@@ -7,6 +7,7 @@ from rich.panel import Panel
 from rich.prompt import Confirm, Prompt
 
 from modules.settings import taskscheduler as scheduler
+from modules.argcli import arg_cli
 from modules.settings.jsonfile import read_json, update_json, write_json
 from modules.settings.setting import (
     change_password,
@@ -21,12 +22,11 @@ appname = "autofi"
 userId = os.environ.get("USERNAME")
 
 
-def isFirstRun():
+def isFirstRun(args=arg_cli()):
     userData_json = get_userdata_dir()
     response = None
     if os.path.isfile(userData_json):
-        response = isEditSetting()
-        if response:
+        if args.isEdit and isEditSetting():
             editSetting(userData_json)
         return False
     else:
