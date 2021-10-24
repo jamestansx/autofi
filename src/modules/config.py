@@ -6,7 +6,7 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.prompt import Confirm, Prompt
 
-from modules.settings import taskscheduler as scheduler
+from platform import system
 from modules.argcli import arg_cli
 from modules.settings.jsonfile import read_json, update_json, write_json
 from modules.settings.setting import (
@@ -71,10 +71,12 @@ def editSetting(userData_json):
     update_json(userData_json, data)
 
 
-def create_task(mainPath, password):
-    isTaskScheduler = Confirm.ask("Do you want to setup task scheduler")
-    if isTaskScheduler:
-        scheduler.create_scheduler(mainPath, password)
+if system() == "Windows":
+    from modules.settings import taskscheduler as scheduler
+    def create_task(mainPath, password):
+        isTaskScheduler = Confirm.ask("Do you want to setup task scheduler")
+        if isTaskScheduler:
+            scheduler.create_scheduler(mainPath, password)
 
 
 def password_setting(response):
