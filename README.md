@@ -1,5 +1,5 @@
 <h1 align="center">autofi-utem</h1>
-<h4 align="center">An automation to authenticate login process to UTeM Kediaman_Pelajar WiFi</h4>
+<h4 align="center">An automated bot to autologin to Wi-Fi network login page</h4>
 <div align="center">
   <img alt="GitHub" src="https://img.shields.io/github/license/jamestansx/autofi-utem?logo=lgtm&logoWidth=18&color=bright%20green">
   <img alt="LGTM Grade" src="https://img.shields.io/lgtm/grade/python/github/jamestansx/autofi-utem?logo=lgtm&logoWidth=18">
@@ -10,35 +10,14 @@
 
 # Installation
 
-**UPDATE**
 
-
-```
-NO PREREQUISITE NEEDED
-```
-
-1. Download the executable from the [release page](https://github.com/jamestansx/autofi-utem/releases)
-2. Run *setup.exe* to set up the configuration.
-
-**Important**
-
-Save the *main.exe* in a permanent path, so that the task scheduler will not break.
+1. Download `autofi` from the [release page](https://github.com/jamestansx/autofi-utem/releases)
+2. Run `autofi -c` to configure the Wi-Fi information
+3. Run `autofi -as` to setup scheduler (Windows only)
 
 ---
 # Development
 
-To build this project from source code, visit [this](contribution.md)
+To build this project from source code, visit [here](CONTRIBUTING.md)
 
 ---
-
-# FAQ
-
-## How is the password stored?
-
-Keyring library is used to store the password. The password will be stored in the [Windows Credentials Vault](https://stackoverflow.com/questions/14756352/how-is-python-keyring-implemented-on-windows).
-
----
-
-# TODO
-
-- [x] Build task scheduler configuration
