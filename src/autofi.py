@@ -72,7 +72,7 @@ def _init_args():
             default=False,
             dest="addScheduler",
             action="store_true",
-            help="Enable debug mode",
+            help="Add Windows task scheduler",
         )
     return parser.parse_args()
 
