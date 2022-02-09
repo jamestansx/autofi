@@ -1,0 +1,3 @@
+rich    ~=  10.12
+keyring ~=  23.2
+appdirs ~=  1.4
