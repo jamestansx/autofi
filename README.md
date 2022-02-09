@@ -10,35 +10,14 @@
 
 # Installation
 
-**UPDATE**
 
-
-```
-NO PREREQUISITE NEEDED
-```
-
-1. Download the executable from the [release page](https://github.com/jamestansx/autofi-utem/releases)
-2. Run *setup.exe* to set up the configuration.
-
-**Important**
-
-Save the *main.exe* in a permanent path, so that the task scheduler will not break.
+1. Download `autofi` from the [release page](https://github.com/jamestansx/autofi-utem/releases)
+2. Run `autofi -c` to configure the Wi-Fi information
+3. Run `autofi -as` to setup scheduler (Windows only)
 
 ---
 # Development
 
-To build this project from source code, visit [this](contribution.md)
+To build this project from source code, visit [here](CONTRIBUTING.md)
 
 ---
-
-# FAQ
-
-## How is the password stored?
-
-Keyring library is used to store the password. The password will be stored in the [Windows Credentials Vault](https://stackoverflow.com/questions/14756352/how-is-python-keyring-implemented-on-windows).
-
----
-
-# TODO
-
-- [x] Build task scheduler configuration
