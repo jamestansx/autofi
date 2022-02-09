@@ -1,4 +1,4 @@
-<h1 align="center">autofi-utem</h1>
+<h1 align="center">autofi</h1>
 <h4 align="center">An automated bot to autologin to Wi-Fi network login page</h4>
 <div align="center">
   <img alt="GitHub" src="https://img.shields.io/github/license/jamestansx/autofi-utem?logo=lgtm&logoWidth=18&color=bright%20green">
