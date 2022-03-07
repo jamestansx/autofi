@@ -1,5 +1,4 @@
 import argparse
-import getpass
 import json
 import logging
 import os
@@ -8,9 +7,15 @@ import shutil
 import subprocess
 import sys
 
-import yaml
 from appdirs import AppDirs
 
+CONFIGFILE = "config.json"
+LOGFILE = "log.log"
+EXEFILE= "autofi.exe"
+APPAUTHOR = "jamestansx"
+APPNAME = "autofi"
+DESCRIPTION = "Scheduler to autologin to Wi-Fi network login page"
+VERSION = "2.0.0"
 
 def _init_log(dirs: AppDirs, logFile: str, args):
     logPath = os.path.join(dirs.user_log_dir, logFile)
@@ -77,22 +82,9 @@ def _init_args():
     return parser.parse_args()
 
 
-def _init_yaml(yamlFile: str) -> dict:
-    try:
-        path = os.path.join(os.path.dirname(__file__), yamlFile) 
-        with open(path, "r") as f:
-            return yaml.safe_load(f)
-    except FileNotFoundError:
-        os.chdir(sys._MEIPASS)
-        _init_yaml(yamlFile)
-
 def _init_dirs(dirs:AppDirs):
-    print(dirs.user_data_dir)
-    print(dirs.user_log_dir)
     os.makedirs(dirs.user_data_dir, exist_ok=True)
     os.makedirs(dirs.user_log_dir, exist_ok=True)
-
-
 
 
 def check_wifiname(wifilist):
@@ -125,20 +117,29 @@ def check_wifiname(wifilist):
 
 
 def create_config(filepath: str):
-    data = dict(wifiname=list(), username=str(), password=str(), url=str())
+    data = dict()
     with open(filepath, "w") as f:
         json.dump(data, f, indent=2)
 
 
 def edit_config(filepath: str):
-    if not os.path.isfile(filepath):
-        logging.debug("file not existed")
-        create_config(filepath)
-    if platform.system() == "Windows":
-        os.startfile(filepath)
-    else:
-        subprocess.call(("vi", filepath))
-    sys.exit(0)
+    
+    wifiname = input("Wifi SSID (input l to list all SSID): ")
+    username = input("Username : ")
+    password = input("Password: ")
+    url = input("Enter wifi login url: ")
+
+    with open(filepath, 'w+') as f:
+        data = f.read()
+        if not data:
+            data = dict()
+            data["wifiname"] = [wifiname]
+        else:
+            data["wifiname"].append(wifiname)
+        data["username"] = username
+        data["password"] = password
+        data["url"] = url
+        json.dump(data, f, indent=2)
 
 
 def read_config(filepath: str) -> str:
@@ -146,27 +147,28 @@ def read_config(filepath: str) -> str:
         with open(filepath, "r") as f:
             return json.load(f)
     except FileNotFoundError:
-        logging.debug("File not found...")
-        logging.debug("Opening config file to write...")
-        edit_config(filepath)
-        sys.exit(1)
+        logging.debug("Config file not found...")
+        create_config(filepath)
+    except json.decoder.JSONDecodeError:
+        logging.debug("File is empty, filling them with empty data...")
+        create_config(filepath)
 
 
 def cp_exe(infos, dirs):
-    path = os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), infos["Filename"]["exe"])
+    path = os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), EXEFILE)
     shutil.copy2(path, dirs.user_data_dir)
-    return os.path.join(dirs.user_data_dir, infos["Filename"]["exe"])
+    return os.path.join(dirs.user_data_dir, EXEFILE)
 
 
 def create_scheduler(infos, dirs):
     import win32com.client
 
-    action_id = infos["appname"]
+    action_id = APPNAME
     action_path = cp_exe(infos, dirs)
     action_arguments = r""
     action_workdir = r""
-    author = infos["appauthor"]
-    description = infos["description"]
+    author = APPAUTHOR
+    description = DESCRIPTION
     task_id = action_id
     task_hidden = False
     userdomain = os.environ.get("USERDOMAIN")
@@ -236,35 +238,38 @@ def create_scheduler(infos, dirs):
 
 
 def main():
-    yamlFile = "autofi.yaml"
-    infos = _init_yaml(yamlFile)
-    dirs = AppDirs(infos["appname"], infos["appauthor"])
+    dirs = AppDirs(APPNAME, APPAUTHOR)
     _init_dirs(dirs)
     args = _init_args()
-    logFile = infos["Filename"]["log"]
+    logFile = LOGFILE
     _init_log(dirs, logFile, args)
-    configPath = os.path.join(dirs.user_data_dir, infos["Filename"]["config"])
 
-    if platform.system() == "Windows":
-        if args.addScheduler:
-            create_scheduler(infos, dirs)
+    configPath = os.path.join(dirs.user_data_dir, CONFIGFILE)
+    if not os.path.isfile(configPath):
+        logging.debug("file not existed")
+        create_config(configPath)
+
+    if platform.system() == "Windows" and args.addScheduler:
+        create_scheduler(infos, dirs)
 
     if args.config:
         edit_config(configPath)
 
     data = read_config(configPath)
+    if args.pconfig:
+        print(json.dumps(data, indent=2))
+        return
+
     if not all(i for i in data.values()):
         edit_config(configPath)
 
-    if args.pconfig:
-        print(json.dumps(data, indent=2))
-        sys.exit(0)
 
     if check_wifiname(data["wifiname"]):
         output = os.popen(
-            f"curl -sLI -d name='{data['username']}' -d password='{data['password']}' '{data['url']}' -w '%{{http_code}}' -o /dev/null",
+            f'curl -sL -d user="{data["username"]}" -d password="{data["password"]}" "{data["url"]}" -w "%{{http_code}}"',
         )
         output = output.read()
+        logging.debug(data["url"])
         logging.info(f"Wi-Fi connected: {output}")
 
 
