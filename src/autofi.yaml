@@ -1,8 +1,0 @@
-Filename:
-  config: 'config.json'
-  log: 'log.log'
-  exe: 'autofi.exe'
-appauthor: jamestansx
-appname: autofi
-description: Scheduler to autologin to Wi-Fi network login page
-version: 2.0.0
