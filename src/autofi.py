@@ -20,11 +20,6 @@ APPDIRS = AppDirs(APPNAME, APPAUTHOR)
 DESCRIPTION = "Scheduler to autologin to Wi-Fi network login page"
 VERSION = "2.0.0"
 
-class EnhancedJSONEncoder(json.JSONEncoder):
-        def default(self, o):
-            if dataclasses.is_dataclass(o):
-                return dataclasses.asdict(o)
-            return super().default(o)
 
 class Autofi(object):
 
@@ -59,7 +54,7 @@ class Autofi(object):
                 data = json.loads(data)
                 data[wifiname] = profile
             logging.debug(f"Config: {data}")
-            json.dump(data, f, indent=2, cls=EnhancedJSONEncoder)
+            json.dump(data, f, indent=2,)
             logging.info("Configuration is added")
 
     def update_config(self):
