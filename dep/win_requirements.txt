@@ -1,2 +1,0 @@
-pywin32 ==  303
-appdirs ~=  1.4

@@ -9,7 +9,18 @@
 ---
 
 # Installation
+## Dependencies
 
+Windows:
+
+- pywin32
+- appdirs
+
+Linux:
+
+- appdirs
+
+## Guide
 
 1. Download `autofi` from the [release page](https://github.com/jamestansx/autofi-utem/releases)
 2. Run `autofi -c` to configure the Wi-Fi information
