@@ -60,6 +60,23 @@ class Autofi(object):
                 data[wifiname] = profile
             logging.debug(f"Config: {data}")
             json.dump(data, f, indent=2, cls=EnhancedJSONEncoder)
+            logging.info("Configuration is added")
+
+    def update_config(self):
+        data = self.read_config()
+        for i,n in enumerate(data.keys()):
+            print(f"{i}) {n}")
+        choice = input("Enter the index of profile to be updated: ")
+        profile = list(data)[int(choice)]
+        print(f"Updating {profile}...")
+        username = input("Username : ")
+        password = input("Password: ")
+        url = input("Enter wifi login url: ")
+        update = dict(username=username, password=password, url=url)
+        data[profile] = update
+        logging.debug(f"Config: {data}")
+        with open(self.configpath, 'w') as f:
+            json.dump(data, f, indent=2)
             logging.info("Configuration is updated")
 
     def read_config(self):
@@ -235,6 +252,13 @@ def initargs():
         help="Get configuration and print them",
     )
     parser.add_argument(
+        "--update",
+        "-u",
+        default=False,
+        action="store_true",
+        help="Update profile configuration",
+    )
+    parser.add_argument(
         "--debug",
         "-d",
         default=False,
@@ -306,6 +330,9 @@ if __name__ == "__main__":
 
     if args.pconfig:
         autofi.print_config()
+        sys.exit(0)
+    if args.update:
+        autofi.update_config()
         sys.exit(0)
 
     if args.addScheduler and platform.system() == "Windows":
