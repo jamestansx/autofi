@@ -101,7 +101,7 @@ class Autofi(object):
             print(f"{platform.system()} OS is not supported")
             sys.exit(1)
 
-        results = subprocess.check_output(command, shell=True).decode()
+        results = subprocess.getoutput(command)
         results = results.replace("\r", "").split("\n")
         wifilist = list()
         for i in results:
