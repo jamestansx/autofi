@@ -101,7 +101,7 @@ class Autofi(object):
             print(f"{platform.system()} OS is not supported")
             sys.exit(1)
 
-        results = subprocess.check_output(command).decode()
+        results = subprocess.check_output(command, shell=True).decode()
         results = results.replace("\r", "").split("\n")
         wifilist = list()
         for i in results:
@@ -147,6 +147,7 @@ class Autofi(object):
             logging.debug(f"HTTP CODE: {output}")
 
     def create_scheduler(self):
+        self.addenv()
         import win32com.client
 
         action_id = APPNAME
@@ -223,11 +224,20 @@ class Autofi(object):
             logging.error("Scheduler creation failed: e")
 
     def copyexe(self):
+        import shutil
         path = os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), EXEFILE)
         shutil.copy2(path, APPDIRS.user_data_dir)
         logging.info(f"{EXEFILE} is copied")
         return os.path.join(APPDIRS.user_data_dir, EXEFILE)
 
+    def addenv(self):
+        path = APPDIRS.user_data_dir
+        command = f"$env:Path+={path};[Environment]::SetEnvironmentVariable('AUTOFI', $env:Path, 'Machine')"
+        out = subprocess.run(["powershell", "-Command", command], capture_output=True)
+        if out.returncode != 0:
+            print(f"Error occur: {out.stderr}")
+            print("--------------------------")
+            print("Please run in admin shell")
 
 
 def initargs():
