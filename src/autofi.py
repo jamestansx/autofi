@@ -139,8 +139,6 @@ class Autofi(object):
         wifi = self.scan_wifi()
         if wifi is not None:
             curl = f'curl -d user="{data[wifi]["username"]}" -d password="{data[wifi]["password"]}" {data[wifi]["url"]} -w "%{{http_code}}" -o NUL'
-            #curl = f"curl -d user='{data[wifi]['username']}' -d password='{data[wifi]['password']}' {data[wifi]['url']}"
-            logging.debug(f"command: {curl}")
             output = os.popen(curl)
             output = output.read()
             logging.info("Login successfully")
